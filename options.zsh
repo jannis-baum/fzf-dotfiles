@@ -11,3 +11,7 @@ __opt_or_fallback FZFDF_ACT_RELOAD ctrl-r
 __opt_or_fallback FZFDF_LS "ls -la"
 
 unset -f __opt_or_fallback
+
+[[ -n "$ZDOTDIR" ]] \
+    && FZFDF_DIR_HIST="$ZDOTDIR/.dir_history" \
+    || FZFDF_DIR_HIST="$HOME/.zsh_dir_history"
