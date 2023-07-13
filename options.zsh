@@ -1,5 +1,5 @@
 function __opt_or_fallback() {
-    eval "! (( \${+$1} )) && $1=\"$2\""
+    eval "(( \${+$1} )) && export $1=\"\$$1\" || export $1=\"$2\""
 }
 
 __opt_or_fallback FZFDF_ACT_1 ctrl-o
