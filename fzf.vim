@@ -29,7 +29,7 @@ function! s:fzf_finder() abort
             \'--preview-window=nohidden',
             \'--preview', 'test -d {} ' .
                 \'&& ' . $FZFDF_LS . ' {} ' .
-                \'|| bat --style=numbers --color=always {}',
+                \'|| bat --style=plain --color=always {}',
             \'--bind=' . 'left' . ':reload(' . s:finder_fd_cmd . ' --no-ignore)'
         \],
         \'sink*': function('s:finder_select')
@@ -115,7 +115,7 @@ function! s:rgi() abort
             \'--bind', 'change:reload:' . s:rg_command . ' {q} | sed "s/^/{q}:/g" || true',
             \'--disabled',
             \'--preview-window=nohidden',
-            \'--preview', 'bat --style=numbers --color=always --line-range={3}: {2} 2>/dev/null ' .
+            \'--preview', 'bat --style=plain --color=always --line-range={3}: {2} 2>/dev/null ' .
                 \'| rg --color always --context 10 {q}',
             \'--expect=' . join([$FZFDF_ACT_1, $FZFDF_ACT_2, $FZFDF_ACT_3, $FZFDF_ACT_NEW], ',')
         \],

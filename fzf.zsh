@@ -17,7 +17,7 @@ _fzf_finder() {
             --expect=$FZFDF_ACT_1,$FZFDF_ACT_NEW,$FZFDF_ACT_2 \
             --preview="test -d {} \
                 && $FZFDF_LS {} \
-                || bat --style=numbers --color=always {}" \
+                || bat --style=plain --color=always {}" \
             --preview-window="nohidden" \
             --bind "${FZFDF_ACT_RELOAD}:reload(fd --no-ignore $fd_opts)")
     zle reset-prompt
@@ -59,9 +59,9 @@ rgi() {
             --bind "change:reload:$rg_command {q} || true" \
             --preview-window="right,70%,wrap,nohidden" \
             --preview "\
-                bat --style=numbers --color=always --line-range {2}: {1} 2> /dev/null\
+                bat --style=plain --color=always --line-range {2}: {1} 2> /dev/null\
                     | rg --color always --context 10 {q}\
-                || bat --style=numbers --color=always --line-range {2}: {1} 2> /dev/null")
+                || bat --style=plain --color=always --line-range {2}: {1} 2> /dev/null")
 
     local query=$(head -n 1 <<< $selection)
     local details=$(tail -n 1 <<< $selection)
