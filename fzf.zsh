@@ -70,7 +70,7 @@ rgi() {
         local file=$(awk -F: '{ print $1 }' <<< $details)
         local line=$(awk -F: '{ print $2 }' <<< $details)
         local column=$(awk -F: '{ print $3 }' <<< $details)
-        $EDITOR "+call cursor($line, $column)" "+let @/='$query'" "+call feedkeys('/\<CR>')" "$file"
+        $EDITOR "+let @/='$query'" "+call feedkeys('/\<CR>:call cursor($line, $column)\<CR>')" "$file"
     fi
 }
 

@@ -85,7 +85,7 @@ function! s:rgi_select(lines) abort
     let l:key = a:lines[0]
 
     let l:fields = split(a:lines[1], ':')
-    let l:query = l:fields[0][0:-1]
+    let l:query = l:fields[0][1:-2]
     let l:file = l:fields[1]
     let l:line = l:fields[2]
     let l:column = l:fields[3]
@@ -95,17 +95,16 @@ function! s:rgi_select(lines) abort
     endif
 
     execute s:sink_by_key[l:key] l:file
-    call cursor(l:line, l:column)
     normal zz
     let @/ = l:query
-    call feedkeys("/\<CR>")
+    exec 'call feedkeys("/\<CR>:call cursor(' . l:line . ', ' . l:column . ')\<CR>")'
 endfunction
 
 let s:rg_command = 'rg --column --line-number --no-heading'
 function! s:rgi() abort
     call fzf#run(fzf#wrap({
         \'source': v:hlsearch
-            \? split(system(s:rg_command . ' ' . @/ . ' | sed "s/^/' . @/ . ':/g"'), '\n')
+            \? split(system(s:rg_command . ' ' . @/ . " | sed \"s/^/'" . @/ . "':/g\""), '\n')
             \: [],
         \'options': [
             \'--query', v:hlsearch ? @/ : '',
