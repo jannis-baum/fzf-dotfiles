@@ -76,11 +76,19 @@ rgi() {
 
 # dir history picker
 #   - enter    go to directory
+
+# keep history file
+[[ -n "$ZDOTDIR" ]] \
+    && FZFDF_DIR_HIST="$ZDOTDIR/.dir_history" \
+    || FZFDF_DIR_HIST="$HOME/.zsh_dir_history"
+
 function _fzfdf_log_dir_history() {
     echo "$(pwd; test -f $FZFDF_DIR_HIST && head -n1000 $FZFDF_DIR_HIST)" > $FZFDF_DIR_HIST
 }
 autoload -U add-zsh-hook
 add-zsh-hook chpwd _fzfdf_log_dir_history
+
+# actual command
 function cdf() {
     test -f $FZFDF_DIR_HIST || return
     # make paths unique and delete non-existing

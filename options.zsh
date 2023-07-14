@@ -1,4 +1,6 @@
 function __opt_or_fallback() {
+    # if option is set, make sure it's exported for vim
+    # if not, set it to $2
     eval "(( \${+$1} )) && export $1=\"\$$1\" || export $1=\"$2\""
 }
 
@@ -11,7 +13,3 @@ __opt_or_fallback FZFDF_ACT_RELOAD ctrl-r
 __opt_or_fallback FZFDF_LS "ls -la"
 
 unset -f __opt_or_fallback
-
-[[ -n "$ZDOTDIR" ]] \
-    && FZFDF_DIR_HIST="$ZDOTDIR/.dir_history" \
-    || FZFDF_DIR_HIST="$HOME/.zsh_dir_history"
