@@ -24,36 +24,10 @@ management in Zsh and Vim.
 
 ## Configuration
 
-This plugin has some configuration options to enable you to customize your
+This plugin has some configuration options that enable you to customize your
 experience. You can set all options as variables in your `.zshrc`; it is not
-necessary to export them manually.
-
-### Keybindings
-
-- `FZFDF_ACT_1`: Zsh, Vim and fzf keybinding, default `ctrl-o`
-  - opens the finder in Zsh and Vim
-  - writes the current fzf selection to the buffer in Zsh (if the commandline
-    buffer is not empty, you can also simply press `return` to write the pick to
-    the buffer)
-  - opens the selected file in a new split in Vim
-- `FZFDF_ACT_2`: fzf keybinding, default `ctrl-u`
-  - relaunches the finder from the selection's directory in Zsh
-  - opens the selected file in a new tab in Vim
-- `FZFDF_ACT_3`: fzf keybinding, default `ctrl-b`
-  - prompts to run a command on the selection in Vim, `{}` will be replaced by
-    the selection
-- `FZFDF_ACT_NEW`: fzf keybinding, default `ctrl-n` \
-  prompts to create a new file in the selection's directory
-  - in Vim you can append `v[sp[lit]]` or `s[p[lit]]` to the file name to open
-    the new file in the respective split
-- `FZFDF_ACT_RELOAD`: fzf keybinding, default `ctrl-r` \
-  reloads the finder without ignoring files such as those that are gitignored
-  (which is the default behavior)
-
-### Other
-
-- `FZFDF_LS`: command, default `ls -la` \
-  the command to use to preview directory contents
+necessary to export them manually. See [`options.zsh`](./options.zsh) for the
+full list of customizable options.
 
 ## Usage
 
