@@ -109,7 +109,7 @@ function cdf() {
 
     # pick target
     local target=$(
-        printf "$_fzfdf_ls_color$(printf $valid_paths | tail -n +2)" \
+        printf "$_fzfdf_ls_color$(printf $valid_paths | rg --invert-match "^$(realpath .)\$")" \
         | fzf --ansi --preview-window="nohidden" \
             --preview="$FZFDF_LS "'$(sed "s|~|$HOME|" <<<{})')
 
