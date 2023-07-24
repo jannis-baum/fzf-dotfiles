@@ -87,6 +87,9 @@ function _fzfdf_log_dir_history() {
 }
 autoload -U add-zsh-hook
 add-zsh-hook chpwd _fzfdf_log_dir_history
+# coloring
+_fzfdf_ls_color=$(sed -r 's/^.*di=([^:]+):.*$/\1/' <<< $LS_COLORS)
+[[ -n "$_fzfdf_ls_color" ]] && _fzfdf_ls_color="\e[${_fzfdf_ls_color}m"
 
 # actual command
 function cdf() {
@@ -106,7 +109,7 @@ function cdf() {
 
     # pick target
     local target=$(
-        printf "\e[$(sed -r 's/^.*di=([^:]+):.*$/\1/' <<< $LS_COLORS)m$(printf $valid_paths | tail -n +2)" \
+        printf "$_fzfdf_ls_color$(printf $valid_paths | tail -n +2)" \
         | fzf --ansi --preview-window="nohidden" \
             --preview="$FZFDF_LS "'$(sed "s|~|$HOME|" <<<{})')
 
