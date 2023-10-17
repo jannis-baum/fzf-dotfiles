@@ -42,6 +42,8 @@ __opt_or_fallback    FZFDF_ACT_RELOAD    ctrl-r
 # ------------------------------------------------------------------------------
 
 # command that is used to list directory contents in the preview window
-__opt_or_fallback    FZFDF_LS            "ls -la"
+__opt_or_fallback    FZFDF_LS            "ls -la {}"
+__opt_or_fallback    FZFDF_IMG           "echo image: {}"
+__opt_or_fallback    FZFDF_TXT           "bat --style=plain --color=always {}"
 
 unset -f __opt_or_fallback

@@ -15,9 +15,16 @@ _fzf_finder() {
     local out=$(fd $fd_opts --full-path $1 \
         | fzf --ansi \
             --expect=$FZFDF_ACT_1,$FZFDF_ACT_NEW,$FZFDF_ACT_2 \
-            --preview="test -d {} \
-                && $FZFDF_LS {} \
-                || bat --style=plain --color=always {}" \
+            --preview="\
+                if test -d {}; then \
+                    $FZFDF_LS;\
+                else \
+                    if file --mime-type {} | grep -qF image/; then \
+                        $FZFDF_IMG;\
+                    else \
+                        $FZFDF_TXT;\
+                    fi ;\
+                fi" \
             --preview-window="nohidden" \
             --bind "${FZFDF_ACT_RELOAD}:reload(fd --no-ignore $fd_opts)")
     zle reset-prompt
