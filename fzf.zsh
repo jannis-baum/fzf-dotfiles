@@ -118,7 +118,7 @@ function cdf() {
     local target=$(
         printf "$_fzfdf_ls_color$(printf $valid_paths | rg --invert-match "^$(realpath .)\$")" \
         | fzf --ansi --preview-window="nohidden" \
-            --preview="$FZFDF_LS "'$(sed "s|~|$HOME|" <<<{})')
+            --preview="$FZFDF_LS")
 
     # go to dir
     if [[ -n "$target" ]]; then
