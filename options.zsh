@@ -45,5 +45,6 @@ __opt_or_fallback    FZFDF_ACT_RELOAD    ctrl-r
 __opt_or_fallback    FZFDF_LS            "ls -la {}"
 __opt_or_fallback    FZFDF_IMG           "echo image: {}"
 __opt_or_fallback    FZFDF_TXT           "bat --style=plain --color=always {}"
+__opt_or_fallback    FZFDF_ALL           ""
 
 unset -f __opt_or_fallback

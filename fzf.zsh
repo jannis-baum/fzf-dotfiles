@@ -16,6 +16,7 @@ _fzf_finder() {
         | fzf --ansi \
             --expect=$FZFDF_ACT_1,$FZFDF_ACT_NEW,$FZFDF_ACT_2 \
             --preview="\
+                $FZFDF_ALL
                 if test -d {}; then \
                     $FZFDF_LS;\
                 else \
@@ -27,7 +28,9 @@ _fzf_finder() {
                 fi" \
             --preview-window="nohidden" \
             --bind "${FZFDF_ACT_RELOAD}:reload(fd --no-ignore $fd_opts)")
+
     zle reset-prompt
+    [[ -n "$FZFDF_ALL" ]] && eval "$FZFDF_ALL"
 
     local key=$(head -1 <<< $out)
     local pick=$(tail -n +2 <<< $out)
