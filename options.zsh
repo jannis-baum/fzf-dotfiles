@@ -43,8 +43,14 @@ __opt_or_fallback    FZFDF_ACT_RELOAD    ctrl-r
 
 # command that is used to list directory contents in the preview window
 __opt_or_fallback    FZFDF_LS            "ls -la {}"
-__opt_or_fallback    FZFDF_IMG           "echo image: {}"
 __opt_or_fallback    FZFDF_TXT           "bat --style=plain --color=always {}"
-__opt_or_fallback    FZFDF_ALL           ""
+
+if [[ -n "$KITTY_PID" ]]; then
+    __opt_or_fallback    FZFDF_IMG       'kitty icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0 {}' 
+    __opt_or_fallback    FZFDF_ALL       "printf '\x1b_Ga=d,d=A\x1b\\'" 
+else
+    __opt_or_fallback    FZFDF_IMG       "echo image: {}"
+    __opt_or_fallback    FZFDF_ALL       ""
+fi
 
 unset -f __opt_or_fallback

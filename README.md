@@ -15,6 +15,8 @@ management in Zsh and Vim.
     and tabs
   - select files to use in any command
   - create new files
+  - if you use [kitty terminal](https://sw.kovidgoyal.net/kitty/), images are
+    also shown as previews
 - `rgi`: Live search though all files that is well integrated with Vim's native
   search (see showcase above)
 - `cdf`: Tracks your working directory history and lets you switch to any
