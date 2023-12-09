@@ -28,7 +28,7 @@ function! s:fzf_finder() abort
             \'--no-multi',
             \'--preview-window=nohidden',
             \'--preview', 'test -d {} ' .
-                \'&& ' . $FZFDF_LS . ' {} ' .
+                \'&& ' . $FZFDF_LS .
                 \'|| bat --style=plain --color=always {}',
             \'--bind=' . 'left' . ':reload(' . s:finder_fd_cmd . ' --no-ignore)'
         \],
