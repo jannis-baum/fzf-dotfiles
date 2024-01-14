@@ -11,8 +11,8 @@ _fzf_finder() {
     [[ -z "$1" ]] && local target_dir="." || local target_dir=$1
 
     local fd_opts=("--follow" "--strip-cwd-prefix" "--color=always" \
-        "--hidden" "--exclude" '**/.git/')
-    local out=$(fd $fd_opts --full-path $1 \
+        "--hidden")
+    local out=$(fd $fd_opts --exclude '**/.git/' --full-path $1 \
         | fzf --ansi \
             --expect=$FZFDF_ACT_1,$FZFDF_ACT_NEW,$FZFDF_ACT_2 \
             --preview="\
@@ -27,7 +27,7 @@ _fzf_finder() {
                     fi ;\
                 fi" \
             --preview-window="nohidden" \
-            --bind "${FZFDF_ACT_RELOAD}:reload(fd --no-ignore $fd_opts)")
+            --bind "${FZFDF_ACT_RELOAD}:reload(fd --no-ignore-vcs $fd_opts)")
 
     zle reset-prompt
     [[ -n "$FZFDF_ALL" ]] && eval "$FZFDF_ALL"
