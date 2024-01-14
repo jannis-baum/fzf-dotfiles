@@ -30,7 +30,7 @@ function! s:fzf_finder() abort
             \'--preview', 'test -d {} ' .
                 \'&& ' . $FZFDF_LS .
                 \'|| bat --style=plain --color=always {}',
-            \'--bind=' . 'left' . ':reload(' . s:finder_fd_cmd . ' --no-ignore)'
+            \'--bind=' . $FZFDF_ACT_RELOAD . ':reload(' . s:finder_fd_cmd . ' --no-ignore)'
         \],
         \'sink*': function('s:finder_select')
     \}))
