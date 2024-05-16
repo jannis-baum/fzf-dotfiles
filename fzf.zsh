@@ -42,7 +42,11 @@ _fzf_finder() {
         || local dir="${(q-)$(dirname $pick)}/"
 
     if [[ -n "$BUFFER" || "$key" == $FZFDF_ACT_1 ]]; then
-        LBUFFER+="$pick"
+        # if buffer is 'mv ' we write the pick twice because you probably want
+        # to move the file :)
+        [[ "$BUFFER" == "mv " ]] \
+            && LBUFFER+="$pick $pick" \
+            || LBUFFER+="$pick"
     elif [[ "$key" == $FZFDF_ACT_NEW ]]; then
         LBUFFER="$EDITOR $dir"
     elif [[ "$key" == $FZFDF_ACT_2 ]]; then
