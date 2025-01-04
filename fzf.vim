@@ -63,6 +63,8 @@ function! s:finder_new_file(dir) abort
             let l:cmd = 'split'
         elseif l:inp =~ ' v\(ert\(ical\)\?\)\?\( \?s\(p\(lit\)\?\)\?\)\?$'
             let l:cmd = 'vsplit'
+        elseif l:inp =~ ' t\(ab\)\?\( \?\(\(new\)\|\(sp\(lit\)\?\)\)\)\?$'
+            let l:cmd = 'tabnew'
         else
             let l:cmd = 'edit'
         endif
