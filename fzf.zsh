@@ -110,25 +110,25 @@ function cdf() {
     test -f $FZFDF_DIR_HIST || return
     # make paths unique and delete non-existing
     local valid_paths=""
-    for p in $(
+    for p in ${(f)"$(
         cat -n $FZFDF_DIR_HIST \
             | sort -uk2 \
             | sort -nk1 \
             | cut -f2-
-    ); do
-        test -d $p && valid_paths+=$p"\n"
+    )"}; do
+        test -d "$p" && valid_paths+="$p\n"
     done
-    echo $valid_paths > $FZFDF_DIR_HIST
+    echo "$valid_paths" > $FZFDF_DIR_HIST
     [[ -z "$valid_paths" ]] && return
 
     # pick target
-    local target=$(
+    local target="$(
         printf "$_fzfdf_ls_color$(printf $valid_paths | rg --invert-match "^$(pwd)\$")" \
         | fzf --ansi --preview-window="nohidden" \
-            --preview="$FZFDF_LS")
+            --preview="$FZFDF_LS")"
 
     # go to dir
     if [[ -n "$target" ]]; then
-        cd ${(q-)$(sed "s|~|$HOME|" <<<$target)}
+        cd "$target"
     fi
 }
