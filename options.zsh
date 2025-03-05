@@ -54,3 +54,5 @@ else
 fi
 
 unset -f __opt_or_fallback
+
+export __FZF_DF_OPTIONS_LOADED=1

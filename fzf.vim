@@ -1,3 +1,8 @@
+" don't load if options weren't loaded
+if !exists('$__FZF_DF_OPTIONS_LOADED')
+    finish
+endif
+
 function! s:Split(file)
     if (winheight(0) * 2 > winwidth(0))
         execute 'split ' . a:file
