@@ -134,10 +134,19 @@ noremap <silent> <leader>/ :RGI<CR>
 
 " buffers ----------------------------------------------------------------------
 
+function! s:buffer_name(buf)
+    let l:cwd = getcwd() . '/'
+    let l:name = a:buf['name']->substitute(l:cwd, '', '')
+    if l:name == ''
+        return '[unnamed buffer #' . a:buf['bufnr'] . ']'
+    endif
+    return l:name
+endfunction
+
 function! s:buffers_list()
     let l:cwd = getcwd() . '/'
     return getbufinfo({ 'buflisted': 1 })
-        \->map({ _, buf -> buf['bufnr'] . ':' . buf['name']->substitute(l:cwd, '', '') })
+        \->map({ _, buf -> buf['bufnr'] . ':' . s:buffer_name(buf) })
 endfunction
 
 function! s:buffers_select(lines)
