@@ -131,3 +131,41 @@ endfunction
 
 command! RGI call s:rgi()
 noremap <silent> <leader>/ :RGI<CR>
+
+" buffers ----------------------------------------------------------------------
+
+function! s:buffers_list()
+    let l:cwd = getcwd() . '/'
+    return getbufinfo({ 'buflisted': 1 })
+        \->map({ _, buf -> buf['bufnr'] . ':' . buf['name']->substitute(l:cwd, '', '') })
+endfunction
+
+function! s:buffers_select(lines)
+    let l:key = a:lines[0]
+
+    let l:fields = split(a:lines[1], ':')
+    let l:bufnr = l:fields[0]
+
+    if l:key == $FZFDF_ACT_3
+        execute 'bdelete ' . l:bufnr
+    elseif has_key(s:sink_by_key, l:key)
+        execute s:sink_by_key[l:key] . ' #' . l:bufnr
+    endif
+endfunction
+
+function! s:fzf_buffers() abort
+    call fzf#run(fzf#wrap({
+        \'source': s:buffers_list(),
+        \'options': [
+            \'--delimiter', ':',
+            \'--with-nth', '2',
+            \'--no-multi',
+            \'--preview-window', 'right,70%,border-left',
+            \'--preview', 'bat --style=numbers --color=always {2} 2>/dev/null',
+            \'--expect=' . join([$FZFDF_ACT_1, $FZFDF_ACT_2, $FZFDF_ACT_3, $FZFDF_ACT_NEW], ',')
+        \],
+        \'sink*': function('s:buffers_select')
+    \}))
+endfunction
+
+command! BUF call s:fzf_buffers()

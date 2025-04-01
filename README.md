@@ -17,12 +17,13 @@ management in Zsh and Vim.
   - create new files
   - if you use [kitty terminal](https://sw.kovidgoyal.net/kitty/), images are
     also shown as previews
-- `rgi`: Live search though all files that is well integrated with Vim's native
+- `rgi/:RGI`: Live search though all files that is well integrated with Vim's native
   search (see showcase above)
 - `cdf`: Tracks your working directory history and lets you switch to any
   directory *fast*
   - this works especially well because we tend to work in the same set of
     directories and because `cdf` keeps the most recent ones in the top
+- `:BUF` to switch, open and delete buffers in Vim
 
 ## Configuration
 
