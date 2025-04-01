@@ -123,7 +123,7 @@ function! s:rgi() abort
             \'--preview-window=nohidden',
             \'--preview', 'bat --style=plain --color=always --line-range={3}: {2} 2>/dev/null ' .
                 \'| rg --color always --context 10 {q}',
-            \'--expect=' . join([$FZFDF_ACT_1, $FZFDF_ACT_2, $FZFDF_ACT_3, $FZFDF_ACT_NEW], ',')
+            \'--expect=' . join([$FZFDF_ACT_1, $FZFDF_ACT_2], ',')
         \],
         \'sink*': function('s:rgi_select')
     \}))
@@ -162,7 +162,7 @@ function! s:fzf_buffers() abort
             \'--no-multi',
             \'--preview-window', 'right,70%,border-left',
             \'--preview', 'bat --style=numbers --color=always {2} 2>/dev/null',
-            \'--expect=' . join([$FZFDF_ACT_1, $FZFDF_ACT_2, $FZFDF_ACT_3, $FZFDF_ACT_NEW], ',')
+            \'--expect=' . join([$FZFDF_ACT_1, $FZFDF_ACT_2, $FZFDF_ACT_3], ',')
         \],
         \'sink*': function('s:buffers_select')
     \}))
