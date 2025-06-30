@@ -19,7 +19,7 @@ __opt_or_fallback    FZFDF_ACT_1         ctrl-o
 # for fzf
 # - relaunches the finder from the selection's directory in Zsh
 # - opens the selected file in a new tab in Vim
-__opt_or_fallback    FZFDF_ACT_2         ctrl-u
+__opt_or_fallback    FZFDF_ACT_2         ctrl-v
 
 # for fzf
 # - prompts to run a command on the selection in Vim, `{}` will be replaced by
