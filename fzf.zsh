@@ -68,9 +68,9 @@ bindkey $(sed 's/ctrl-/^/' <<< $FZFDF_ACT_1) _fzf_finder
 #              search
 rgi() {
     local rg_command=("rg" "--column" "--line-number" "--no-heading")
-    local selection=$($rg_command "$1" | \
-        fzf -d ':' --with-nth=1 +m --disabled --print-query --query "$1" \
-            --bind "change:reload:$rg_command {q} || true" \
+    local selection=$(true | \
+        fzf -d ':' --with-nth=1 +m --disabled --print-query \
+            --bind "change:reload:$rg_command $@ {q} || true" \
             --preview-window="right,70%,wrap,nohidden" \
             --preview "\
                 bat --style=plain --color=always --line-range {2}: {1} 2> /dev/null\
