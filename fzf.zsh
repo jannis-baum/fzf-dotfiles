@@ -14,6 +14,7 @@ _fzf_finder() {
         "--hidden")
     local out=$(fd $fd_opts --exclude '**/.git/' --full-path $1 \
         | fzf --ansi \
+            --multi \
             --expect=$FZFDF_ACT_1,$FZFDF_ACT_NEW,$FZFDF_ACT_2 \
             --preview="\
                 $FZFDF_ALL
@@ -33,10 +34,18 @@ _fzf_finder() {
     [[ -n "$FZFDF_ALL" ]] && eval "$FZFDF_ALL"
 
     local key=$(head -1 <<< $out)
-    local pick=$(tail -n +2 <<< $out)
-    [[ -z "$pick" ]] && return
+    local picks=$(tail -n +2 <<< $out)
+    [[ -z "$picks" ]] && return
 
-    pick=${(q-)pick}
+    if [[ $(wc -l <<< $picks) -gt 1 ]]; then
+        # merge picks into 1 line of correctly quoted items & write to buffer
+        LBUFFER+="$(print -r -- ${(f)$(for item in "${(f)picks}"; do
+            print -r -- "${(q-)item}"
+        done)})"
+        return
+    fi
+
+    local pick=${(q-)picks}
     test -d $pick \
         && local dir="$pick" \
         || local dir="${(q-)$(dirname $pick)}/"
