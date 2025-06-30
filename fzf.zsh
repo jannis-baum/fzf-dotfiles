@@ -6,6 +6,8 @@
 #   - action_2        start finder in selected directory (/ directory of selected file)
 #   - action_new      create new file (path can have new directories)
 #   - action_reload   reload without ignoring anything (e.g. .git/*)
+# if multiple items are selected, items are quoted if necessary and written to
+# LBUFFER
 
 _fzf_finder() {
     [[ -z "$1" ]] && local target_dir="." || local target_dir=$1
