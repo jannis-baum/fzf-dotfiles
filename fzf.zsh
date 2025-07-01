@@ -63,10 +63,7 @@ _fzf_finder() {
     elif [[ "$key" == $FZFDF_ACT_2 ]]; then
         _fzf_finder "$dir" || _fzf_finder "$target"
     else
-        test -d $pick \
-            && BUFFER="cd $pick" \
-            || BUFFER="$EDITOR $pick"
-        zle accept-line; zle reset-prompt
+        test -d $pick && cd $pick || $EDITOR $pick
     fi
 }
 zle -N _fzf_finder
