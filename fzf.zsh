@@ -47,12 +47,13 @@ _fzf_finder() {
         return
     fi
 
-    local pick=${(q-)picks}
-    test -d $pick \
+    local pick="$picks"
+    test -d "$pick" \
         && local dir="$pick" \
-        || local dir="${(q-)$(dirname $pick)}/"
+        || local dir="$(dirname "$pick")/"
 
     if [[ -n "$BUFFER" || "$key" == $FZFDF_ACT_1 ]]; then
+        pick="${(q-)picks}"
         # if buffer is 'mv ' we write the pick twice because you probably want
         # to move the file :)
         [[ "$BUFFER" == "mv " ]] \
@@ -63,7 +64,16 @@ _fzf_finder() {
     elif [[ "$key" == $FZFDF_ACT_2 ]]; then
         _fzf_finder "$dir" || _fzf_finder "$target"
     else
-        test -d $pick && cd $pick || $EDITOR $pick
+        if test -d "$pick"; then
+            cd "$pick"
+        else
+            local file_output="$(file "$pick")"
+            if [[ "$file_output" = *text* || "$file_output" = *empty* || -z "$(cat "$pick")" ]]; then
+                $EDITOR "$pick"
+            else
+                $FZFDF_PROG_OPEN "$pick"
+            fi
+        fi
     fi
 }
 zle -N _fzf_finder

@@ -37,6 +37,13 @@ __opt_or_fallback    FZFDF_ACT_NEW       ctrl-n
 #   (which is the default behavior)
 __opt_or_fallback    FZFDF_ACT_RELOAD    ctrl-r
 
+# open program for non-text files
+if which open &>/dev/null; then
+    __opt_or_fallback FZFDF_PROG_OPEN "open"
+else
+    __opt_or_fallback FZFDF_PROG_OPEN "xdg-open"
+fi
+
 # OTHER ------------------------------------------------------------------------
 # - explanation      name                default setting
 # ------------------------------------------------------------------------------
