@@ -67,7 +67,9 @@ _fzf_finder() {
         if test -d "$pick"; then
             cd "$pick"
         else
-            local file_output="$(file "$pick")"
+            # have to exclude JSON test because it breaks the pattern that
+            # plain text files have output with "text" in it ("JSON data")
+            local file_output="$(file --exclude json "$pick")"
             if [[ "$file_output" = *text* || "$file_output" = *empty* || -z "$(cat "$pick")" ]]; then
                 $EDITOR "$pick"
             else
