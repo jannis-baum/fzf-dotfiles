@@ -145,8 +145,13 @@ endfunction
 
 function! s:buffers_list()
     let l:cwd = getcwd() . '/'
-    return getbufinfo({ 'buflisted': 1 })
+    let l:bufs = getbufinfo({ 'buflisted': 1 })
+        \->sort({ buf1, buf2 -> buf2['lastused'] - buf1['lastused'] })
         \->map({ _, buf -> buf['bufnr'] . ':' . s:buffer_name(buf) })
+    if empty(l:bufs)
+        return []
+    endif
+    return l:bufs[1:] + [l:bufs[0]]
 endfunction
 
 function! s:buffers_select(lines)
