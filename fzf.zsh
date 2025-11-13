@@ -86,15 +86,27 @@ bindkey $(sed 's/ctrl-/^/' <<< $FZFDF_ACT_1) _fzf_finder
 # interactive ripgrep: live search & highlighted preview
 #   - enter    open selection in vim, go to selected occurance and highlight
 #              search
+# first argument (if not starting with `-`) is initial query, others are passed
+# through to `rg`
 rgi() {
     local rg_command=("rg" "--column" "--line-number" "--no-heading")
+    local hl_command=("rg" "--color" "always" "--context" "10")
+    local initial_query=""
+    if [[ -n "$1" && "$1" != -* ]]; then
+        initial_query="$1"
+        shift
+    fi
+    rg_command+=($@)
+    hl_command+=($@)
+
     local selection=$(true | \
         fzf -d ':' --with-nth=1 +m --disabled --print-query \
-            --bind "change:reload:$rg_command $@ {q} || true" \
+            --query "$initial_query" \
+            --bind "start,change:reload:$rg_command {q} || true" \
             --preview-window="right,70%,wrap,nohidden" \
             --preview "\
                 bat --style=plain --color=always --line-range {2}: {1} 2> /dev/null\
-                    | rg --color always --context 10 {q}\
+                    | $hl_command {q}\
                 || bat --style=plain --color=always --line-range {2}: {1} 2> /dev/null")
 
     local query=$(head -n 1 <<< $selection)
