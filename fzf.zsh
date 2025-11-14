@@ -103,7 +103,7 @@ rgi() {
         fzf -d ':' --with-nth=1 +m --disabled --print-query \
             --query "$initial_query" \
             --bind "start,change:reload:$rg_command {q} || true" \
-            --preview-window="right,70%,wrap,nohidden" \
+            --preview-window="nohidden" \
             --preview "\
                 bat --style=plain --color=always --line-range {2}: {1} 2> /dev/null\
                     | $hl_command {q}\
