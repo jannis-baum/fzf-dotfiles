@@ -164,3 +164,31 @@ function cdf() {
         cd "$target"
     fi
 }
+
+# to-do picker: looks for unticked markdown task list items and TODO markers
+#   - enter    open in vim
+function todos() {
+    # --pcre2 allows for \K to reset match and get column of space in [ ]
+    local pick=$({
+        rg \
+            --column --line-number --no-heading \
+            --pcre2 \
+            --only-matching --replace '$1' \
+            '^\s*- \[\K \]\s*(.*$)'; \
+        rg \
+            --column --line-number --no-heading \
+            --case-sensitive \
+            --only-matching --replace '$1' \
+            'TODO:?\s*(.*$)'
+    } | fzf \
+        --delimiter=: \
+        --with-nth=4.. \
+        --preview "bat --style=header-filename --color=always --line-range {2}: {1}")
+
+    [[ -z "$pick" ]] && return
+
+    local file=$(cut -d: -f1 <<< $pick)
+    local line=$(cut -d: -f2 <<< $pick)
+    local column=$(cut -d: -f3 <<< $pick)
+    $EDITOR "+call feedkeys(':call cursor($line, $column)\<CR>')" "$file"
+}
