@@ -137,15 +137,13 @@ noremap <silent> <leader>/ :RGI<CR>
 function! s:buffer_name(buf)
     let l:cwd = getcwd() . '/'
     let l:name = a:buf['name']->substitute(l:cwd, '', '')
-    if l:name == ''
-        return '[unnamed buffer #' . a:buf['bufnr'] . ']'
-    endif
     return l:name
 endfunction
 
 function! s:buffers_list()
     let l:cwd = getcwd() . '/'
     let l:bufs = getbufinfo({ 'buflisted': 1 })
+        \->filter({ _, buf -> buf['name'] != '' })
         \->sort({ buf1, buf2 -> buf2['lastused'] - buf1['lastused'] })
         \->map({ _, buf -> buf['bufnr'] . ':' . s:buffer_name(buf) })
     if empty(l:bufs)
