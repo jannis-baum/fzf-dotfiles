@@ -81,6 +81,36 @@ _fzf_finder() {
 zle -N _fzf_finder
 bindkey $(sed 's/ctrl-/^/' <<< $FZFDF_ACT_1) _fzf_finder
 
+# action_1 for history picker
+#   - enter           run command
+#   - action_1        write command to buffer
+_fzf_history() {
+    local out="$(history 0 \
+        | tac \
+        | sed -E 's/^[[:space:]]+[[:digit:]]+[[:space:]]+//' \
+        | fzf \
+            --scheme=history \
+            --no-multi \
+            --query="$LBUFFER" \
+            --expect=$FZFDF_ACT_1 \
+    )"
+    zle reset-prompt
+
+    local key=$(head -1 <<< $out)
+    local pick=$(tail -n +2 <<< $out)
+    [[ -z "$pick" ]] && return
+
+    LBUFFER="$pick"
+
+    # return so accept line
+    if [[ "$key" == "" ]]; then
+        zle accept-line
+    fi
+
+}
+zle -N _fzf_history
+bindkey $(sed 's/ctrl-/^/' <<< $FZFDF_ACT_2) _fzf_history
+
 # commands ---------------------------------------------------------------------
 
 # interactive ripgrep: live search & highlighted preview
