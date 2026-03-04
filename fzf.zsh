@@ -91,7 +91,7 @@ _fzf_history() {
         | fzf \
             --scheme=history \
             --no-multi \
-            --query="$LBUFFER" \
+            --query="$BUFFER" \
             --expect=$FZFDF_ACT_1 \
     )"
     zle reset-prompt
@@ -100,7 +100,7 @@ _fzf_history() {
     local pick=$(tail -n +2 <<< $out)
     [[ -z "$pick" ]] && return
 
-    LBUFFER="$pick"
+    BUFFER="$pick"
 
     # return so accept line
     if [[ "$key" == "" ]]; then
