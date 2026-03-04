@@ -213,6 +213,7 @@ function todos() {
     } | fzf \
         --delimiter=: \
         --with-nth=4.. \
+        --preview-window="nohidden" \
         --preview "bat --style=header-filename --color=always --line-range {2}: {1}")
 
     [[ -z "$pick" ]] && return
