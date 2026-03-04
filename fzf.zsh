@@ -100,7 +100,8 @@ _fzf_history() {
     local pick=$(tail -n +2 <<< $out)
     [[ -z "$pick" ]] && return
 
-    BUFFER="$pick"
+    LBUFFER="$pick"
+    RBUFFER=""
 
     # return so accept line
     if [[ "$key" == "" ]]; then
