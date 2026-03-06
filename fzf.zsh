@@ -85,9 +85,12 @@ bindkey $(sed 's/ctrl-/^/' <<< $FZFDF_ACT_1) _fzf_finder
 #   - enter           run command
 #   - action_1        write command to buffer
 _fzf_history() {
-    local out="$(history 0 \
-        | tac \
-        | sed -E 's/^[[:space:]]+[[:digit:]]+[[:space:]]+//' \
+    # fc args (see `man zshbuiltins`, `/^\s\+fc`):
+    #   -l: list
+    #   -n: suppress event numbers
+    #   -r: reverse order
+    #   0: start at first
+    local out="$(fc -lnr 0 \
         | fzf \
             --scheme=history \
             --no-multi \
