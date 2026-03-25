@@ -207,8 +207,8 @@ function todos() {
         rg \
             --column --line-number --no-heading \
             --pcre2 \
-            --only-matching --replace '$1' \
-            '^\s*- \[\K \]\s*(.*$)'; \
+            --only-matching --replace '$2' \
+            '^\s*([>] )?- \[\K \]\s*(.*$)'; \
         rg \
             --column --line-number --no-heading \
             --case-sensitive \
