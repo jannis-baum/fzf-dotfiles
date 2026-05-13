@@ -203,6 +203,9 @@ function cdf() {
 #   - enter    open in vim
 function todos() {
     # --pcre2 allows for \K to reset match and get column of space in [ ]
+    #
+    # in the while loop we prepend mtime so we can sort: -k1 time modified
+    # (reverse, numerically), -k2 filename, -k3 line number (numerically)
     local pick=$({
         rg \
             --column --line-number --no-heading \
@@ -214,7 +217,11 @@ function todos() {
             --case-sensitive \
             --only-matching --replace '$1' \
             'TODO:?\s*(.*$)'
-    } | fzf \
+    } | while IFS= read -r line; do
+        local file="${line%%:*}"
+        echo "$(stat -f %m "$file" 2>/dev/null || echo 0):$line"
+    done | sort -t: -k1,1rn -k2,2 -k3,3n | cut -d: -f2- \
+    | fzf \
         --delimiter=: \
         --with-nth=4.. \
         --preview-window="nohidden" \
