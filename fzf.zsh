@@ -23,7 +23,7 @@ _fzf_finder() {
                 if test -d {}; then \
                     $FZFDF_LS;\
                 else \
-                    if file --mime-type {} | grep -qF image/; then \
+                    if file --mime-type {} | grep -qF -e image/ -e application/pdf; then \
                         $FZFDF_IMG;\
                     else \
                         $FZFDF_TXT;\
